@@ -5,7 +5,6 @@ import {db} from './database/db.js'
 import teamRoutes from './routes/Team.js'
 import taskRoutes from './routes/Task.js'
 import cors from 'cors';
-const PORT=3000;
 const app=express();
 
 const corsOptions = {
@@ -26,6 +25,7 @@ try{
 catch{
     console.log("The connection to database failed");
 }
+const PORT=process.env.PORT || 3000;
 const server=app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
 })
