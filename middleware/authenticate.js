@@ -12,7 +12,7 @@ export const authenticate=(req,res,next)=>{
         const user=jwt.verify(refreshToken,process.env.JWT_REFRESH_SECRET);
         const userid=user.userId;
         const newAccessToken=jwt.sign({userId:userid},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRATION});
-        res.cookie('accessToken', newAccessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
+        res.cookie('accessToken', newAccessToken, { httpOnly: true, secure: true});
         req.user=userid;
         next()
         }
@@ -36,7 +36,7 @@ export const authenticate=(req,res,next)=>{
             const user=jwt.verify(refreshToken,process.env.JWT_REFRESH_SECRET);
             const userid=user.userId;
             const newAccessToken=jwt.sign({userId:userid},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRATION});
-            res.cookie('accessToken', newAccessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
+            res.cookie('accessToken', newAccessToken, { httpOnly: true, secure: true});
             req.user=userid;
             next()
             }

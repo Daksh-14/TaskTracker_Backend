@@ -31,8 +31,8 @@ router
             const user=await db.query('Select * from users where email=$1',[email]);
             const tokens=genToken(user.rows[0]);
             user.rows[0].password=undefined;
-            res.cookie('accessToken', tokens.accessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
-            res.cookie('refreshToken', tokens.refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
+            res.cookie('accessToken', tokens.accessToken, { httpOnly: true, secure: true});
+            res.cookie('refreshToken', tokens.refreshToken, { httpOnly: true, secure: true});
             return res.status(201).json({ message: 'Signup successful' });
         }
         catch(error){
@@ -57,8 +57,8 @@ router
             }
 
             const tokens = genToken(user.rows[0]);
-            res.cookie('accessToken', tokens.accessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
-            res.cookie('refreshToken', tokens.refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
+            res.cookie('accessToken', tokens.accessToken, { httpOnly: true, secure: true});
+            res.cookie('refreshToken', tokens.refreshToken, { httpOnly: true, secure: true});
             res.status(200).json({ message: 'Login successful' });
         }
         catch(error){
@@ -83,7 +83,7 @@ router
           }
       
           const newAccessToken = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
-          res.cookie('accessToken', newAccessToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
+          res.cookie('accessToken', newAccessToken, { httpOnly: true, secure: true});
           res.status(200).json({ message: 'Token refreshed' });
         });
     }
@@ -118,8 +118,8 @@ router
     .route('/logout')
     .post((req, res) => {
         try {
-          res.cookie('accessToken', '', { expires: new Date(0), httpOnly: true, secure: true, sameSite: 'Strict' });
-          res.cookie('refreshToken', '', { expires: new Date(0), httpOnly: true, secure: true, sameSite: 'Strict' });
+          res.cookie('accessToken', '', { expires: new Date(0), httpOnly: true, secure: true});
+          res.cookie('refreshToken', '', { expires: new Date(0), httpOnly: true, secure: true });
           res.status(200).json({ message: 'User logged out successfully' });
         } catch (error) {
           res.status(500).json({ message: 'Error logging out, please try again' });
