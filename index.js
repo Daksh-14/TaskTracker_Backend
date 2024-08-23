@@ -30,6 +30,10 @@ const server=app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
 })
 
+app.get('/',(req,res)=>{
+    res.status(200).send('Hello World');
+})
+
 server.on("close",()=>{
     console.log("Server is shutting down. Closing DB connection...");
     db.end((err) => {
