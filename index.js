@@ -8,7 +8,7 @@ import cors from 'cors';
 const app=express();
 
 const corsOptions = {
-    origin: 'http://localhost:5173', // Your frontend URL
+    origin: 'https://tasktracker-frontend-fkuz.onrender.com', // Your frontend URL
     credentials: true, // Allow credentials (cookies) to be sent
   };
 
