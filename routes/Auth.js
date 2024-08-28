@@ -8,7 +8,6 @@ import 'dotenv/config'
 const router=express.Router();
 
 const genToken=(user)=>{
-    console.log(process.env);
     const accessToken=jwt.sign({userId:user.id},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRATION});
     const refreshToken=jwt.sign({userId:user.id},process.env.JWT_REFRESH_SECRET,{expiresIn:process.env.JWT_REFRESH_EXPIRATION});
     return {accessToken,refreshToken};
