@@ -286,4 +286,21 @@ router
       }
     })
 
+router
+.route('/updateuserstatus')
+.post(authenticate,async(req,res)=>{
+  console.log("Updating user status");
+  console.log(req.body);
+  const {taskid,status}=req.body;
+  const user=req.user;
+  try{
+    await db.query(`Update taskassign set status=$1 where taskid=$2 and userid=$3`,[status,taskid,user]);
+    res.status(200).json({message:"Status updated successfully"});
+    console.log("Status updated successfully");
+  }
+  catch(err){
+    res.status(500).json({message:"Status update failed"});
+  }
+})
+
 export default router;

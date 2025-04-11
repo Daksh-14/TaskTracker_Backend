@@ -8,8 +8,10 @@ export const db = new pg.Client({
   user: process.env.PGUSER,
   password: process.env.PGPASSWORD,
   database: process.env.PGDATABASE,
+  keepAlive: true,
   ssl: {
     ca: fs.readFileSync(process.env.CA_CERT).toString(),
     rejectUnauthorized: true
   }
 });
+
