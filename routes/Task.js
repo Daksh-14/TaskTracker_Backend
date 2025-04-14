@@ -46,7 +46,7 @@ router
       
       res.status(201).json({id:newTaskId,user});
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       res.status(500).json({ message: "Can't proceed your request. Please try again later." });
     }
   });
@@ -73,7 +73,7 @@ router
       try{
         const data=await db.query(`Select taskid,title,duedate,firstname,lastname from taskassign join tasks on tasks.id=taskassign.taskid join users on users.id=tasks.createdby
             where taskassign.userid=$1 and tasks.teamid=$2`,[user,teamid]);
-            console.log(data.rows);
+            // console.log(data.rows);
       res.status(200).json(data.rows);
         }
         catch(err){
@@ -126,7 +126,6 @@ router
       const user = req.user;
       const taskId = req.params.id;
       try {
-        // Fetch the existing task details
         const taskResult = await db.query('SELECT fileUrls, links FROM tasks WHERE id=$1', [taskId]);
         if (taskResult.rowCount === 0) {
           return res.status(404).json({ message: 'Task not found.' });
@@ -135,7 +134,6 @@ router
         let existingFileUrls = JSON.parse(existingTask.fileurls || '[]');
         let existingLinks = JSON.parse(existingTask.links || '[]');
 
-        // Upload new files if any
         let newFileUrls = [];
         if (files && files.length > 0) {
           for (const file of files) {
@@ -146,11 +144,8 @@ router
           }
         }
 
-        // Append new links to existing ones
         let updatedLinks = existingLinks.concat(links || []);
-        // Append new file URLs to existing ones
         let updatedFileUrls = existingFileUrls.concat(newFileUrls);
-        // Update the task in the database
         await db.query(
           'UPDATE tasks SET title=$1, description=$2, duedate=$3, fileUrls=$4, links=$5 WHERE id=$6 ',
           [title, description, dueDate, JSON.stringify(updatedFileUrls), JSON.stringify(updatedLinks), taskId]
@@ -179,7 +174,6 @@ router
       const { files, links } = req.body;
     const taskId = req.params.id;
     try {
-      // Fetch the existing task data
       const existingTask = await db.query('SELECT * FROM tasks WHERE id = $1', [taskId]);
       if (existingTask.rowCount === 0) {
         return res.status(404).json({ message: 'Task not found' });
@@ -187,7 +181,6 @@ router
 
       const taskData = existingTask.rows[0];
 
-      // Merge the new data with the existing task data
       const updatedTask = {
         ...taskData,
         fileurls: JSON.stringify(files),
@@ -289,14 +282,11 @@ router
 router
 .route('/updateuserstatus')
 .post(authenticate,async(req,res)=>{
-  console.log("Updating user status");
-  console.log(req.body);
   const {taskid,status}=req.body;
   const user=req.user;
   try{
     await db.query(`Update taskassign set status=$1 where taskid=$2 and userid=$3`,[status,taskid,user]);
     res.status(200).json({message:"Status updated successfully"});
-    console.log("Status updated successfully");
   }
   catch(err){
     res.status(500).json({message:"Status update failed"});

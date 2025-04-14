@@ -28,7 +28,6 @@ export const authenticate=(req,res,next)=>{
             next();
         }
         catch(error){
-            console.log("here");
             if(!refreshToken){
                 return res.status(404).json({message:"Refresh token expired"});
             }

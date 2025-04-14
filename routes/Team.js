@@ -108,7 +108,6 @@ router
 router
     .route('/:id/member')
     .get(authenticate,async(req,res)=>{ 
-        console.log(req.params.id)
         const id=parseInt(req.params.id);
         try{
             const data=await db.query(`SELECT users.id, users.firstname, users.lastname, users.email
